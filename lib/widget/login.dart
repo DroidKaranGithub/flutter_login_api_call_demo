@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:login_demo_flutter/model/user.dart';
 import '../homescreen.dart';
 import 'package:http/http.dart' as http;
 
@@ -50,16 +51,27 @@ class _LoginState extends State<Login> {
       body: data,
       /* headers: {'Content-Type': 'application/json'} */
     );
-    var resData = json.decode(response.body);
+    Map resData = json.decode(response.body);
     print(resData);
-    if (response.statusCode == 200) {
+    User user = User();
+    user = User.fromJson(resData);
+    print('User-> $user');
+    if (user.status==1) {
       setState(() {
         _isLoading = false;
       });
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (BuildContext context) => HomeScreen()),
           (Route<dynamic> route) => false);
-    } else {
+    } else if(user.status==0) {
+    
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Wrong email or password')));
+      setState(() {
+        _isLoading = false;
+      });
+      print(response.body);
+    }else  {
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Something went wrong')));
       setState(() {
         _isLoading = false;
       });

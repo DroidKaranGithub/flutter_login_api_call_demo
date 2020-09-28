@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'model/user.dart';
-
 class HomeScreen extends StatelessWidget {
 
   @override
@@ -18,5 +16,4 @@ class HomeScreen extends StatelessWidget {
   }
   }
 
-  //https://github.com/flutter-devs/flutter_login-signup_demo
 
